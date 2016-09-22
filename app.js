@@ -15,6 +15,14 @@ app.get('/', function (req, res) {
   res.render('index.html');
 });
 
+app.get('/three', function (req, res) {
+  res.render('three.html');
+});
+
+app.get('/vr', function (req, res) {
+  res.render('vrindex.html');
+});
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!', Date() );
 });
