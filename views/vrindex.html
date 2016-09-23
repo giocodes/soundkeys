@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Cardboard Example</title>
+    <title>Qwerty Hero</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -18,7 +18,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onkeypress="myFunction()">
     <div id="example"></div>
 
   <script src="js/third-party/threejs/three.js"></script>
@@ -27,9 +27,33 @@
   <script src="js/third-party/threejs/OrbitControls.js"></script>
   <script src="js/third-party/threejs/dat.gui.js"></script>
   <script src="js/vrscript.js"></script>
-
-  <script>
+  <script src="js/gui.js"></script>
+  <script type="text/javascript">
     
+function myFunction(response){
+  console.log('Run Forest!',response);
+}
+
+document.addEventListener('keydown', (event) => {
+  const keyName = event.key;
+  console.dir(event);
+  console.log(keyName, event.code, event.keyCode, event.charCode);
+});
+//   if (keyName === 'Control') {
+//     // not alert when only Control key is pressed.
+//     return;
+//   }
+
+//   if (event.ctrlKey) {
+//     // Even though event.key is not 'Control' (i.e. 'a' is pressed),
+//     // event.ctrlKey may be true if Ctrl key is pressed at the time.
+//     alert(`Combination of ctrlKey + ${keyName}`);
+//   } else {
+//     alert(`Key pressed ${keyName}`);
+//   }
+// }
+// , false);
+
   </script>
   </body>
 </html>

@@ -1,17 +1,7 @@
-var FizzyText = function() {
-    this.message = 'dat.gui';
-    this.speed = 0.8;
-    this.displayOutline = false;
-    this.camerax = 0;
-    // this.explode = function() {};
-    // Define render logic ...
-};
-
-
 var camera, scene, renderer;
 var effect, controls;
 var element, container;
-var cube;
+var cube, sphere;
 
 var clock = new THREE.Clock();
 
@@ -24,17 +14,21 @@ function init() {
     container = document.getElementById('example');
     container.appendChild(element);
 
+    // VR option
     effect = new THREE.StereoEffect(renderer);
 
     scene = new THREE.Scene();
     //( fov, aspect, near, far ) 
     camera = new THREE.PerspectiveCamera(50, 1, 0.1, 2000);
-    camera.position.set(40, 15, 35);
+    // camera = new THREE.PerspectiveCamera();
+    camera.position.set(0, 10, 0);
+    // camera.position.set(50, 50, 50);
     scene.add(camera);
 
     controls = new THREE.OrbitControls(camera, element);
     controls.rotateUp(Math.PI / 4);
-    controls.target.set(36, 18, 32);
+    // controls.target.set(36, 18, 32);
+    controls.target.set(24, 24, 50);
     // camera.position.x + 0.1,
     // camera.position.y,
     // camera.position.z
@@ -86,10 +80,12 @@ function init() {
     var geometry2 = new THREE.BoxGeometry(1, 1, 1);
     var material2 = new THREE.MeshBasicMaterial({ color: 0x99CC99 });
     cube = new THREE.Mesh(geometry2, material2);
+    cube.lookAt(camera.position);
+    cube.position.set(0,0,60);
     scene.add(cube);
 
     // Sphere
-    var sphere = new THREE.Mesh(
+    sphere = new THREE.Mesh(
       new THREE.SphereGeometry(100, 20, 20),
       new THREE.MeshBasicMaterial({
         map: THREE.ImageUtils.loadTexture('images/lake.jpg')
@@ -136,8 +132,11 @@ function render(dt) {
 function animate(t) {
 
     // Cube Animation
+    if (cube.position.x > 100) {
+      cube.position.x = -100;
+    }
     cube.rotation.y += 0.01;
-    // cube.position.y += 1;
+    cube.position.x += 1;
     requestAnimationFrame(animate);
 
     update(clock.getDelta());
@@ -155,31 +154,3 @@ function fullscreen() {
         container.webkitRequestFullscreen();
     }
 }
-
-
-
-window.onload = function() {
-    var text = new FizzyText();
-    var gui = new dat.GUI();
-    // gui.add(text, 'message');
-    // gui.add(text, 'speed', -5, 5);
-    // gui.add(text, 'displayOutline');
-    // gui.add(text, 'explode');
-    gui.add(camera.position, 'x');
-    gui.add(camera.position, 'y');
-    gui.add(camera.position, 'z');
-    gui.add(camera, 'fov');
-    gui.add(controls.target, 'x');
-    gui.add(controls.target, 'y');
-    gui.add(controls.target, 'z');
-    // gui.add(scene.children[3].material.map, 'sourceFile');
-    gui.add(cube.position, 'x');
-    gui.add(cube.position, 'y');
-    gui.add(cube.position, 'z');
-    console.dir(controls)
-    console.dir(effect)
-    console.dir(camera)
-    console.dir(container)
-    console.dir(scene)
-    console.dir(cube)
-};
