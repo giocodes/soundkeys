@@ -11,6 +11,7 @@ var FizzyText = function() {
 var camera, scene, renderer;
 var effect, controls;
 var element, container;
+var cube;
 
 var clock = new THREE.Clock();
 
@@ -84,14 +85,14 @@ function init() {
     // Cube
     var geometry2 = new THREE.BoxGeometry(1, 1, 1);
     var material2 = new THREE.MeshBasicMaterial({ color: 0x99CC99 });
-    var cube = new THREE.Mesh(geometry2, material2);
+    cube = new THREE.Mesh(geometry2, material2);
     scene.add(cube);
 
     // Sphere
     var sphere = new THREE.Mesh(
       new THREE.SphereGeometry(100, 20, 20),
       new THREE.MeshBasicMaterial({
-        map: THREE.ImageUtils.loadTexture('images/snow.jpg')
+        map: THREE.ImageUtils.loadTexture('images/lake.jpg')
       })
     );
     sphere.scale.x = -1;
@@ -105,8 +106,11 @@ function init() {
 
 function resize() {
     var width = container.offsetWidth;
+    // var width = container.offsetWidth * 2;
     var height = container.offsetHeight;
+    // var height = container.offsetHeight * 2;
 
+    // camera.aspect = width / height;
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
@@ -123,10 +127,17 @@ function update(dt) {
 }
 
 function render(dt) {
-    effect.render(scene, camera);
+    // VR Version
+    // effect.render(scene, camera);
+    // Desktop Version
+    renderer.render(scene, camera);
 }
 
 function animate(t) {
+
+    // Cube Animation
+    cube.rotation.y += 0.01;
+    // cube.position.y += 1;
     requestAnimationFrame(animate);
 
     update(clock.getDelta());
@@ -161,5 +172,14 @@ window.onload = function() {
     gui.add(controls.target, 'x');
     gui.add(controls.target, 'y');
     gui.add(controls.target, 'z');
+    // gui.add(scene.children[3].material.map, 'sourceFile');
+    gui.add(cube.position, 'x');
+    gui.add(cube.position, 'y');
+    gui.add(cube.position, 'z');
     console.dir(controls)
+    console.dir(effect)
+    console.dir(camera)
+    console.dir(container)
+    console.dir(scene)
+    console.dir(cube)
 };
